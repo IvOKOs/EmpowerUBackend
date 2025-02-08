@@ -7,9 +7,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="EmpowerEFCore.Data">
+      <HintPath>..\..\EmpowerUDatabase\DatabaseEFCoreEmpowerU\EmpowerEFCore.Data\bin\Debug\net8.0\EmpowerEFCore.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="EmpowerEFCore.Domain">
+      <HintPath>..\..\EmpowerUDatabase\DatabaseEFCoreEmpowerU\EmpowerEFCore.Data\bin\Debug\net8.0\EmpowerEFCore.Domain.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

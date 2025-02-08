@@ -1,11 +1,12 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using EmpowerUAPI.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace EmpowerUAPI.Helpers
 {
-    public class AuthHelper
+    public class AuthHelper : IAuthHelper
     {
         private readonly IConfiguration _configuration;
 
