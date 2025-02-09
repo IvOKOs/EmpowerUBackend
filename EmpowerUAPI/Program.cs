@@ -1,3 +1,4 @@
+using AutoMapper;
 using EmpowerEFCore.Data;
 using EmpowerUAPI.Configurations;
 using EmpowerUAPI.Helpers;
@@ -19,12 +20,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<EmpowerUDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Default"))
 );
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy => policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+});
 builder.Services.AddAutoMapper(typeof(MapperConfig));
 
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IAuthHelper, AuthHelper>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var secretKey = builder.Configuration.GetValue<string>("SecretKey");
 builder.Services.AddAuthentication(options =>
@@ -54,7 +63,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 

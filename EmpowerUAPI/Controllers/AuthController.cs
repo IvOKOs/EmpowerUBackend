@@ -21,7 +21,7 @@ namespace EmpowerUAPI.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto regUser)
         {
             UserRegistrationResult result = await _userService.RegisterUser(regUser);
@@ -29,7 +29,11 @@ namespace EmpowerUAPI.Controllers
             {
                 return BadRequest(new { message = result.Message });
             }
-            var claims = new List<Claim>();
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Email, regUser.Email),
+                new Claim(ClaimTypes.Role, regUser.Role.ToString())
+            };
             var expiresAt = DateTime.UtcNow.AddMinutes(5);
 
             return Ok(new
@@ -39,7 +43,7 @@ namespace EmpowerUAPI.Controllers
             });
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginUserDto loginUser)
         {
             bool isValid = await _userService.ValidateUserCredentials(loginUser);
@@ -47,7 +51,11 @@ namespace EmpowerUAPI.Controllers
             {
                 return Unauthorized(new { message = "Invalid email or password." });
             }
-            var claims = new List<Claim>();
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Email, loginUser.Email),
+                new Claim(ClaimTypes.Role, ClaimTypes.Role.ToString())
+            };
             var expiresAt = DateTime.UtcNow.AddMinutes(5);
 
             return Ok(new
